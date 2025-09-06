@@ -5,6 +5,7 @@ pragma solidity 0.8.30;
 import "./project.sol";
 
 contract ProjectFactory {
+    event NewProjectCreated(string name, uint256 minimalContribution, address creator);
     Project[] public deployedProjects;
 
     function createProject(string calldata name, uint minimalContribution) public {
@@ -13,5 +14,7 @@ contract ProjectFactory {
 
         Project newProject = new Project(msg.sender, name, minimalContribution);
         deployedProjects.push(newProject);
+
+        emit NewProjectCreated(name, minimalContribution, msg.sender);
     }
 }
