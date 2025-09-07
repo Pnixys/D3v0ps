@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.30;
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "./ReentrancyGuard.sol";
 
 
 contract Project is ReentrancyGuard {
@@ -34,6 +34,11 @@ contract Project is ReentrancyGuard {
     uint private minimalContribution;
     uint256 private numberOfTasks = 0;
     uint256 private numberOfParticipants = 1;
+
+    uint256 private waitingTasksCount = 0;
+    uint256 private onTheWayTasksCount = 0;
+    uint256 private doingTasksCount = 0;
+    uint256 private completedTasksCount = 0;
 
     mapping(address => bool) public participants;
     mapping(uint256 => Task) public tasks;
@@ -87,6 +92,7 @@ contract Project is ReentrancyGuard {
     }
 
     function createTask(string calldata title, string calldata description, uint256 reward) public participantOnly {
+        require(bytes(title).length <= 32, "Title too long. (32 char max)");
         require(address(this).balance >= reward, "Not enough balance to create this task.");
         require(reward != 0, "Reward can't be 0.");
 
@@ -202,4 +208,15 @@ contract Project is ReentrancyGuard {
         );
     }
 
+    function _updateTaskCounter(TaskStatus oldStatus, TaskStatus newStatus) private {
+        if (oldStatus == TaskStatus.WaitingApproval) waitingTasksCount--;
+        else if (oldStatus == TaskStatus.OnTheWay) onTheWayTasksCount--;
+        else if (oldStatus == TaskStatus.Doing) doingTasksCount--;
+        else if (oldStatus == TaskStatus.Completed) completedTasksCount--;
+
+        if (newStatus == TaskStatus.WaitingApproval) waitingTasksCount++;
+        else if (newStatus == TaskStatus.OnTheWay) onTheWayTasksCount++;
+        else if (newStatus == TaskStatus.Doing) doingTasksCount++;
+        else if (newStatus == TaskStatus.Completed) completedTasksCount++;
+    }
 }

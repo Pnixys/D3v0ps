@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.30;
 
-import "./project.sol";
+import "./Project.sol";
 
 contract ProjectFactory {
     event NewProjectCreated(string name, uint256 minimalContribution, address creator);
