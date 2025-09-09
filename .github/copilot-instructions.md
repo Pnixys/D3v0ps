@@ -1,22 +1,22 @@
-# Web3 Funding Platform - AI Coding Instructions
+# Web3 DevOps Platform - AI Coding Instructions
 
-This is a decentralized crowdfunding platform with smart contracts and a Nuxt.js frontend. The architecture follows a factory pattern for project creation with democratic task approval.
+This is a Web3 DevOps platform that combines blockchain infrastructure management with decentralized project orchestration. The platform automates smart contract deployment, monitoring, and lifecycle management while providing a modern frontend for devops operations and infrastructure management.
 
 ## Project Architecture
 
-### Smart Contract Layer (`ethereum/`)
-- **Factory Pattern**: `ProjectFactory.sol` deploys individual `Project.sol` instances
-- **Project Lifecycle**: Create project → Join with minimal contribution → Create tasks → Democratic approval (>50% participants) → Complete tasks
-- **Key Security**: Creator + participant modifiers, approval mapping to prevent double-voting
-- **Dual Build Systems**: Both Truffle and Hardhat configs present (Truffle actively configured with Solidity 0.8.30)
+### Smart Contract Infrastructure (`ethereum/`)
+- **Factory Pattern**: `ProjectFactory.sol` deploys and manages individual blockchain project instances
+- **DevOps Lifecycle**: Create infrastructure project → Configure participants → Define deployment tasks → Automated approval workflows → Execute deployments
+- **Security & Access Control**: Role-based access with creator and participant modifiers, multi-signature approval patterns
+- **Multi-Environment Support**: Truffle and Hardhat configurations for different deployment targets (local, testnet, mainnet)
 
-### Frontend Layer (`web3-funding-front/`)
-- **Nuxt 4 with TypeScript**: Modern Vue 3 SSR framework
-- **Contract Integration**: ABI and bytecode mirrored from `ethereum/build/contracts/` to `web3-funding-front/contracts/`
-- **Modules**: ESLint, Fonts, Icons, Images, Testing utilities
+### Frontend DevOps Dashboard (`d3v0ps/`)
+- **Nuxt 4 with TypeScript**: Modern Vue 3 SSR framework for infrastructure management UI
+- **Contract Integration**: Real-time ABI and bytecode synchronization from `ethereum/build/contracts/` to `d3v0ps/contracts/`
+- **DevOps Modules**: ESLint for code quality, monitoring utilities, deployment dashboards
 
-### Contract Synchronization Pattern
-Contract artifacts flow: `ethereum/build/contracts/*.json` → `ethereum/contract-data/` → `web3-funding-front/contracts/`
+### Infrastructure Automation Pipeline
+Contract artifacts flow: `ethereum/build/contracts/*.json` → `ethereum/contract-data/` → `d3v0ps/contracts/` → Automated deployment triggers
 
 ## Development Workflows
 
@@ -38,7 +38,7 @@ truffle test
 ### Frontend Development
 ```bash
 # Navigate to frontend
-cd web3-funding-front
+cd d3v0ps
 
 # Install dependencies
 pnpm install
@@ -85,7 +85,7 @@ approveTask(taskNumber) → increments approval count → auto-approve at >50%
 - `ethereum/contracts/project.sol` - Core project logic with task management
 - `ethereum/contracts/projectFactory.sol` - Project deployment factory
 - `ethereum/truffle-config.js` - Network and compiler configuration
-- `web3-funding-front/nuxt.config.ts` - Frontend build configuration
+- `d3v0ps/nuxt.config.ts` - Frontend build configuration
 - `ethereum/contract-data/contracts.json` - ABI definitions for frontend
 
 ## Common Issues & Solutions
