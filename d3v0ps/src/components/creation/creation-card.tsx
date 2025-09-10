@@ -15,6 +15,7 @@ import {
     HoverCardTrigger,
     HoverCardContent
 } from "@/components/ui/hover-card"
+import { Button } from "../ui/button"
 
 interface CreationCardProps {
     isProject: boolean
@@ -77,6 +78,9 @@ export default function CreationCard({ isProject = true }: CreationCardProps) {
                     </div>
                 </form>
             </CardContent>
+            <CardFooter>
+                <Button className="w-full">Create {baseWord}</Button>
+            </CardFooter>
         </Card>
     )
 }
