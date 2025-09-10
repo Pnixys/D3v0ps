@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.30;
+pragma solidity ^0.8.21;
 
-import "./ReentrancyGuard.sol";
+// import "./ReentrancyGuard.sol";
 
 
-contract Project is ReentrancyGuard {
+contract Project {
     enum TaskStatus { WaitingApproval, OnTheWay, Doing, Completed }
 
     struct Task {
@@ -40,8 +40,8 @@ contract Project is ReentrancyGuard {
     uint256 private doingTasksCount = 0;
     uint256 private completedTasksCount = 0;
 
-    mapping(address => bool) public participants;
-    mapping(uint256 => Task) public tasks;
+    mapping(address => bool) private participants;
+    mapping(uint256 => Task) private tasks;
 
     modifier participantOnly() {
         require(participants[msg.sender], "You are not a participants of this project.");
@@ -120,7 +120,7 @@ contract Project is ReentrancyGuard {
         }
     }
 
-    function approveTaskCompleted(uint256 taskNumber) public participantOnly verifyTaskExist(taskNumber)  voteOnce(taskNumber, false) nonReentrant {
+    function approveTaskCompleted(uint256 taskNumber) public participantOnly verifyTaskExist(taskNumber)  voteOnce(taskNumber, false) {
         Task storage task = tasks[taskNumber];
 
         require(task.status == TaskStatus.Doing, "Task must be in Doing status to be completed.");
@@ -165,10 +165,6 @@ contract Project is ReentrancyGuard {
         address projectCreator) {
             
         return (name, numberOfTasks, numberOfParticipants, address(this).balance, creator);
-    }
-
-    function isParticipant(address user) external view returns (bool) {
-        return participants[user] || user == creator;
     }
 
     function getActiveTasksCount() external view returns (uint256 waiting, uint256 onTheWay, uint256 doing, uint256 completed) {
@@ -219,4 +215,8 @@ contract Project is ReentrancyGuard {
         else if (newStatus == TaskStatus.Doing) doingTasksCount++;
         else if (newStatus == TaskStatus.Completed) completedTasksCount++;
     }
+
+    function isParticipant(address user) external view returns (bool) {
+        return participants[user];
+    }   
 }
