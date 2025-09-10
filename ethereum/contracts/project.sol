@@ -41,7 +41,7 @@ contract Project {
     uint256 private completedTasksCount = 0;
 
     mapping(address => bool) private participants;
-    mapping(uint256 => Task) private tasks;
+    mapping(uint256 => Task) public tasks;
 
     modifier participantOnly() {
         require(participants[msg.sender], "You are not a participants of this project.");
@@ -77,10 +77,6 @@ contract Project {
         name = _name;
         minimalContribution = _minimalContribution;
         participants[_creator] = true;
-    }
-
-    receive() external payable {
-        emit Received(msg.sender, msg.value);
     }
 
     function joinProject() public payable {

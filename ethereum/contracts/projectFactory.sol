@@ -7,6 +7,8 @@ contract ProjectFactory {
     event NewProjectCreated(string name, uint256 minimalContribution, address creator);
     Project[] public deployedProjects;
 
+    constructor () {}
+
     function createProject(string calldata name, uint minimalContribution) public {
         require(minimalContribution >= 0,
         "The minimal contribution cannot be negative.");
